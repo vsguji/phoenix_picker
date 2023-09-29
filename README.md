@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# phoenix_picker
-Flutter 企业界组件:Picker
-=======
 <!--
  * @Author: lipeng 1162423147@qq.com
  * @Date: 2023-09-22 21:11:42
@@ -44,4 +40,4 @@ const like = 'sample';
 ## Additional information
 
 phoenix 将做为企业级基础组件:Picker,提供项目支持。
->>>>>>> 0c9e94e ([new] 新建)
+

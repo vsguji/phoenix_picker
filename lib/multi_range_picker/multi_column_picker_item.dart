@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phoenix_base/phoenix.dart';
 
+import '../extension/picker_assets.dart';
 import 'bean/multi_column_picker_entity.dart';
 import 'multi_column_picker_util.dart';
 
@@ -39,8 +40,8 @@ class MultiRangePickerCommonItem extends StatelessWidget {
           width: 21,
           child: (item.isSelected)
               ? PhoenixTools.getAssetImageWithBandColor(
-                  BaseAsset.iconMultiSelected)
-              : PhoenixTools.getAssetImage(BaseAsset.iconUnSelect),
+                  PickerAssets.iconMultiSelected)
+              : PhoenixTools.getAssetImage(PickerAssets.iconUnSelect),
         );
       } else {
         checkbox = Container();

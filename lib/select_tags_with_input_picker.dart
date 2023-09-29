@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phoenix_base/phoenix.dart';
 import 'package:phoenix_picker/extension/picker_total_config.dart';
 
+import 'extension/picker_assets.dart';
 import 'picker_cliprrect.dart';
 
 ///传入的泛型数据转换为值 以填充Widget
@@ -261,7 +262,7 @@ class _SelectTagsWithInputPickerWidgetState
               },
               child: Padding(
                 padding: const EdgeInsets.all(4),
-                child: PhoenixTools.getAssetImage(BaseAsset.iconPickerClose),
+                child: PhoenixTools.getAssetImage(PickerAssets.iconPickerClose),
               ))
         ],
       ),

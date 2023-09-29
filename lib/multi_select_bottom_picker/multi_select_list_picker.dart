@@ -6,6 +6,7 @@ import 'package:phoenix_picker/extension/picker_total_config.dart';
 import '../base/picker_title.dart';
 import '../base/picker_title_config.dart';
 import '../base/picker_constants.dart';
+import '../extension/picker_assets.dart';
 import '../picker_cliprrect.dart';
 import 'multi_select_data.dart';
 
@@ -166,8 +167,9 @@ class MultiSelectDialogWidgetState<T extends BrnMultiSelectBottomPickerItem>
                       height: 50,
                       child: widget.items[index].isChecked
                           ? PhoenixTools.getAssetImageWithBandColor(
-                              BaseAsset.iconMultiSelected)
-                          : PhoenixTools.getAssetImage(BaseAsset.iconUnSelect)),
+                              PickerAssets.iconMultiSelected)
+                          : PhoenixTools.getAssetImage(
+                              PickerAssets.iconUnSelect)),
                 ],
               ),
             ),
