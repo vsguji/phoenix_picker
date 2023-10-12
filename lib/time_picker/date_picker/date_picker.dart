@@ -12,7 +12,7 @@ import 'datetime_widget.dart';
 import 'time_widget.dart';
 
 ///时间选择模式枚举
-enum BrnDateTimePickerMode {
+enum DateTimePickerMode {
   /// Display DatePicker
   date,
 
@@ -23,7 +23,7 @@ enum BrnDateTimePickerMode {
   datetime,
 }
 
-class BrnDatePicker {
+class PhoenixDatePicker {
   /// Display date picker in bottom sheet.
   ///
   /// context: [BuildContext]
@@ -63,7 +63,7 @@ class BrnDatePicker {
     int minuteDivider = 1,
 
     /// 时间选择组件显示的时间类型
-    BrnDateTimePickerMode pickerMode = BrnDateTimePickerMode.date,
+    DateTimePickerMode pickerMode = DateTimePickerMode.date,
 
     /// 时间选择组件的主题样式
     PickerTitleConfig pickerTitleConfig = PickerTitleConfig.Default,
@@ -122,7 +122,7 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
     this.initialDateTime,
     this.minuteDivider,
     this.dateFormat,
-    this.pickerMode = BrnDateTimePickerMode.date,
+    this.pickerMode = DateTimePickerMode.date,
     this.pickerTitleConfig = PickerTitleConfig.Default,
     this.onCancel,
     this.onChange,
@@ -142,7 +142,7 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
 
   final DateTime? minDateTime, maxDateTime, initialDateTime;
   final String? dateFormat;
-  final BrnDateTimePickerMode pickerMode;
+  final DateTimePickerMode pickerMode;
   final PickerTitleConfig pickerTitleConfig;
   final VoidCallback? onCancel;
   final DateValueCallback? onChange;
@@ -207,7 +207,7 @@ class _DatePickerComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget? pickerWidget;
     switch (route.pickerMode) {
-      case BrnDateTimePickerMode.date:
+      case DateTimePickerMode.date:
         pickerWidget = DateWidget(
           minDateTime: route.minDateTime,
           maxDateTime: route.maxDateTime,
@@ -220,7 +220,7 @@ class _DatePickerComponent extends StatelessWidget {
           themeData: route.themeData,
         );
         break;
-      case BrnDateTimePickerMode.time:
+      case DateTimePickerMode.time:
         pickerWidget = TimeWidget(
           minDateTime: route.minDateTime,
           maxDateTime: route.maxDateTime,
@@ -234,7 +234,7 @@ class _DatePickerComponent extends StatelessWidget {
           themeData: route.themeData,
         );
         break;
-      case BrnDateTimePickerMode.datetime:
+      case DateTimePickerMode.datetime:
         pickerWidget = DateTimeWidget(
           minDateTime: route.minDateTime,
           maxDateTime: route.maxDateTime,

@@ -6,7 +6,7 @@ import 'bean/multi_column_picker_entity.dart';
 import 'multi_column_picker_util.dart';
 
 class MultiRangePickerCommonItem extends StatelessWidget {
-  final BrnPickerEntity item;
+  final PickerEntity item;
   final Color normalColor;
   final Color selectColor;
   final Color? backgroundColor;
@@ -16,7 +16,7 @@ class MultiRangePickerCommonItem extends StatelessWidget {
 
   final bool isMoreSelectionListType;
 
-  final ValueChanged<BrnPickerEntity>? itemSelectFunction;
+  final ValueChanged<PickerEntity>? itemSelectFunction;
 
   MultiRangePickerCommonItem({
     required this.item,
@@ -40,8 +40,10 @@ class MultiRangePickerCommonItem extends StatelessWidget {
           width: 21,
           child: (item.isSelected)
               ? PhoenixTools.getAssetImageWithBandColor(
-                  PickerAssets.iconMultiSelected)
-              : PhoenixTools.getAssetImage(PickerAssets.iconUnSelect),
+                  PickerAssets.iconMultiSelected,
+                  package: 'phoenix_picker')
+              : PhoenixTools.getAssetImage(PickerAssets.iconUnSelect,
+                  package: 'phoenix_picker'),
         );
       } else {
         checkbox = Container();
@@ -116,7 +118,7 @@ class MultiRangePickerCommonItem extends StatelessWidget {
     return fontWeight;
   }
 
-  String _getSelectedItemCount(BrnPickerEntity item) {
+  String _getSelectedItemCount(PickerEntity item) {
     String itemCount = "";
     if ((MultiColumnPickerUtil.getTotalColumnCount(item) < 3 ||
         !isFirstLevel)) {
@@ -129,7 +131,7 @@ class MultiRangePickerCommonItem extends StatelessWidget {
     return itemCount;
   }
 
-  bool _hasCheckBoxBrother(BrnPickerEntity item) {
+  bool _hasCheckBoxBrother(PickerEntity item) {
     int? count;
     if (item.parent != null) {
       count = item.parent!.children

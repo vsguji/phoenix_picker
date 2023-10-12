@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:phoenix_base/phoenix.dart';
 import 'package:phoenix_picker/phoenix_picker.dart';
+
+import 'picker_entry_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      localizationsDelegates: [BrnLocalizationDelegate.delegate],
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -32,7 +36,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: PickerEntryPage('Picker'),
     );
   }
 }

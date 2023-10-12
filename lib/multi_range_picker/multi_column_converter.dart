@@ -14,19 +14,19 @@ import 'multi_column_picker_util.dart';
 class MultiRangeSelConverter {
   const MultiRangeSelConverter();
 
-  Map<String, List<BrnPickerEntity>> convertPickedData(
-      List<BrnPickerEntity> selectedResults,
+  Map<String, List<PickerEntity>> convertPickedData(
+      List<PickerEntity> selectedResults,
       {bool includeUnlimitSelection = false}) {
     return getSelectionParams(selectedResults,
         includeUnlimitSelection: includeUnlimitSelection);
   }
 
-  Map<String, List<BrnPickerEntity>> getSelectionParams(
-      List<BrnPickerEntity>? selectedResults,
+  Map<String, List<PickerEntity>> getSelectionParams(
+      List<PickerEntity>? selectedResults,
       {bool includeUnlimitSelection = false}) {
-    Map<String, List<BrnPickerEntity>> params = Map();
+    Map<String, List<PickerEntity>> params = Map();
     if (selectedResults == null) return params;
-    for (BrnPickerEntity menuItemEntity in selectedResults) {
+    for (PickerEntity menuItemEntity in selectedResults) {
       int levelCount =
           MultiColumnPickerUtil.getTotalColumnCount(menuItemEntity);
       if (levelCount == 1) {
@@ -59,10 +59,10 @@ class MultiRangeSelConverter {
     return params;
   }
 
-  Map<String?, List<BrnPickerEntity>> mergeParams(
-      Map<String?, List<BrnPickerEntity>> params,
-      Map<String?, List<BrnPickerEntity>> selectedParams) {
-    selectedParams.forEach((String? key, List<BrnPickerEntity> value) {
+  Map<String?, List<PickerEntity>> mergeParams(
+      Map<String?, List<PickerEntity>> params,
+      Map<String?, List<PickerEntity>> selectedParams) {
+    selectedParams.forEach((String? key, List<PickerEntity> value) {
       if (params.containsKey(key)) {
         params[key]?.addAll(value);
       } else {
@@ -72,23 +72,23 @@ class MultiRangeSelConverter {
     return params;
   }
 
-  Map<String, List<BrnPickerEntity>> getCurrentSelectionEntityParams(
-      BrnPickerEntity selectionEntity,
+  Map<String, List<PickerEntity>> getCurrentSelectionEntityParams(
+      PickerEntity selectionEntity,
       {bool includeUnlimitSelection = false}) {
-    Map<String, List<BrnPickerEntity>> params = Map();
+    Map<String, List<PickerEntity>> params = Map();
     String parentKey = selectionEntity.key ?? '';
     var selectedEntity = selectionEntity.children
-        .where((BrnPickerEntity f) => f.isSelected)
-        .where((BrnPickerEntity f) {
+        .where((PickerEntity f) => f.isSelected)
+        .where((PickerEntity f) {
           if (includeUnlimitSelection) {
             return true;
           } else {
             return !PhoenixTools.isEmpty(f.value);
           }
         })
-        .map((BrnPickerEntity f) => f)
+        .map((PickerEntity f) => f)
         .toList();
-    List<BrnPickerEntity> selectedParams = selectedEntity;
+    List<PickerEntity> selectedParams = selectedEntity;
     if (!PhoenixTools.isEmpty(selectedParams) &&
         !PhoenixTools.isEmpty(parentKey)) {
       params[parentKey] = selectedParams;

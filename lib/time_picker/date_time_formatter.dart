@@ -28,16 +28,16 @@ class DateTimeFormatter {
 
   /// Get default value of date format.
   static String generateDateFormat(
-      String? dateFormat, BrnDateTimePickerMode pickerMode) {
+      String? dateFormat, DateTimePickerMode pickerMode) {
     if (dateFormat != null && dateFormat.isNotEmpty) {
       return dateFormat;
     }
     switch (pickerMode) {
-      case BrnDateTimePickerMode.date:
+      case DateTimePickerMode.date:
         return datetimePickerDateFormat;
-      case BrnDateTimePickerMode.time:
+      case DateTimePickerMode.time:
         return datetimePickerTimeFormat;
-      case BrnDateTimePickerMode.datetime:
+      case DateTimePickerMode.datetime:
         return datetimePickerDatetimeFormat;
     }
   }
@@ -67,12 +67,12 @@ class DateTimeFormatter {
 
   /// Split date format to array.
   static List<String> splitDateFormat(String? dateFormat,
-      {BrnDateTimePickerMode? mode}) {
+      {DateTimePickerMode? mode}) {
     if (dateFormat == null || dateFormat.isEmpty) {
       return [];
     }
     List<String> result = dateFormat.split(RegExp(DATE_FORMAT_SEPARATOR));
-    if (mode == BrnDateTimePickerMode.datetime) {
+    if (mode == DateTimePickerMode.datetime) {
       // datetime mode need join day format
       List<String> temp = [];
       StringBuffer dayFormat = StringBuffer();

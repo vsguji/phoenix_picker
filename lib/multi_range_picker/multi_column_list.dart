@@ -12,13 +12,13 @@ import 'multi_column_picker_item.dart';
 /// [index] 点击位置处于当前列的位置
 /// [entity] 被点击位置的数据
 typedef OnSelectEntityInterceptor = bool Function(
-    int? listIndex, int index, BrnPickerEntity entity);
+    int? listIndex, int index, PickerEntity entity);
 
 // ignore: must_be_immutable
 class MultiColumnListWidget extends StatefulWidget {
-  List<BrnPickerEntity>? _selectedItems;
+  List<PickerEntity>? _selectedItems;
   int? focusedIndex = -1;
-  List<BrnPickerEntity>? items;
+  List<PickerEntity>? items;
   Color normalColor;
   Color selectedColor;
   Color? backgroundColor;
@@ -56,7 +56,7 @@ class MultiColumnListWidget extends StatefulWidget {
   @override
   _MultiColumnListWidgetState createState() => _MultiColumnListWidgetState();
 
-  List<BrnPickerEntity>? getSelectedItems() {
+  List<PickerEntity>? getSelectedItems() {
     return _selectedItems;
   }
 }
@@ -78,7 +78,7 @@ class _MultiColumnListWidgetState extends State<MultiColumnListWidget> {
           itemCount: widget.items!.length,
           separatorBuilder: (BuildContext context, int index) => Container(),
           itemBuilder: (BuildContext context, int index) {
-            BrnPickerEntity item = widget.items![index];
+            PickerEntity item = widget.items![index];
 
             /// 点击筛选，展开弹窗时，默认展示上次选中的筛选项。
             bool isCurrentFocused = _isItemFocused(index, item);
@@ -92,7 +92,7 @@ class _MultiColumnListWidgetState extends State<MultiColumnListWidget> {
               isCurrentFocused: isCurrentFocused,
               isMoreSelectionListType: false,
               isFirstLevel: (1 == widget.currentListIndex) ? true : false,
-              itemSelectFunction: (BrnPickerEntity entity) {
+              itemSelectFunction: (PickerEntity entity) {
                 if (widget.onSelectEntityInterceptor != null &&
                     widget.onSelectEntityInterceptor!(
                             widget.currentListIndex, index, entity) ==
@@ -112,7 +112,7 @@ class _MultiColumnListWidgetState extends State<MultiColumnListWidget> {
     );
   }
 
-  bool _isItemFocused(int itemIndex, BrnPickerEntity item) {
+  bool _isItemFocused(int itemIndex, PickerEntity item) {
     bool isFocused = widget.focusedIndex == itemIndex;
     if (!isFocused && widget.focusedIndex == -1 && item.isSelected) {
       isFocused = true;
@@ -121,7 +121,7 @@ class _MultiColumnListWidgetState extends State<MultiColumnListWidget> {
   }
 
   /// Item 点击之后的数据处理
-  void _processFilterData(BrnPickerEntity? selectedEntity) {
+  void _processFilterData(PickerEntity? selectedEntity) {
     if (null == selectedEntity) {
       return;
     }
@@ -158,11 +158,11 @@ class _MultiColumnListWidgetState extends State<MultiColumnListWidget> {
         widget.items!.isNotEmpty &&
         widget.items![0].parent != null) {
       widget.items![0].parent?.isSelected = widget.items![0].parent!.children
-          .where((BrnPickerEntity f) => f.isSelected)
+          .where((PickerEntity f) => f.isSelected)
           .isNotEmpty;
     }
 
-    for (BrnPickerEntity item in widget.items!) {
+    for (PickerEntity item in widget.items!) {
       if (item.isSelected) {
         if (!widget._selectedItems!.contains(item)) {
           widget._selectedItems!.add(item);
@@ -175,7 +175,7 @@ class _MultiColumnListWidgetState extends State<MultiColumnListWidget> {
     }
   }
 
-  void _configFirstList(BrnPickerEntity selectedEntity) {
+  void _configFirstList(PickerEntity selectedEntity) {
     if (PickerFilterType.radio == selectedEntity.filterType) {
       /// 单选，清除同一级别选中的状态，则其他的设置为未选中。
       selectedEntity.parent!.clearChildSelection();
@@ -187,13 +187,13 @@ class _MultiColumnListWidgetState extends State<MultiColumnListWidget> {
         selectedEntity.isSelected = true;
       } else {
         ///清除【不限】类型。
-        List<BrnPickerEntity> brotherItems;
+        List<PickerEntity> brotherItems;
         if (selectedEntity.parent == null) {
           brotherItems = widget.items ?? [];
         } else {
           brotherItems = selectedEntity.parent!.children;
         }
-        for (BrnPickerEntity entity in brotherItems) {
+        for (PickerEntity entity in brotherItems) {
           if (entity.isUnLimit()) {
             entity.isSelected = false;
           }
@@ -203,8 +203,7 @@ class _MultiColumnListWidgetState extends State<MultiColumnListWidget> {
     }
   }
 
-  void _configSecondList(
-      BrnPickerEntity selectedEntity, int? currentListIndex) {
+  void _configSecondList(PickerEntity selectedEntity, int? currentListIndex) {
     if (currentListIndex == 1) {
       if (PickerFilterType.checkbox != selectedEntity.filterType) {
         selectedEntity.parent!.clearChildSelection();
@@ -221,13 +220,13 @@ class _MultiColumnListWidgetState extends State<MultiColumnListWidget> {
           selectedEntity.isSelected = true;
         } else {
           ///清除【不限】类型。
-          List<BrnPickerEntity> brotherItems;
+          List<PickerEntity> brotherItems;
           if (selectedEntity.parent == null) {
             brotherItems = widget.items ?? [];
           } else {
             brotherItems = selectedEntity.parent!.children;
           }
-          for (BrnPickerEntity entity in brotherItems) {
+          for (PickerEntity entity in brotherItems) {
             if (entity.isUnLimit()) {
               entity.isSelected = false;
             }
@@ -238,7 +237,7 @@ class _MultiColumnListWidgetState extends State<MultiColumnListWidget> {
     }
   }
 
-  void _configThirdList(BrnPickerEntity selectedEntity, int? currentListIndex) {
+  void _configThirdList(PickerEntity selectedEntity, int? currentListIndex) {
     if (currentListIndex == 1) {
       if (PickerFilterType.checkbox != selectedEntity.filterType) {
         selectedEntity.parent!.clearChildSelection();
@@ -255,13 +254,13 @@ class _MultiColumnListWidgetState extends State<MultiColumnListWidget> {
           selectedEntity.isSelected = true;
         } else {
           ///清除【不限】类型。
-          List<BrnPickerEntity> brotherItems;
+          List<PickerEntity> brotherItems;
           if (selectedEntity.parent == null) {
             brotherItems = widget.items ?? [];
           } else {
             brotherItems = selectedEntity.parent!.children;
           }
-          for (BrnPickerEntity entity in brotherItems) {
+          for (PickerEntity entity in brotherItems) {
             if (entity.isUnLimit()) {
               entity.isSelected = false;
             }

@@ -21,7 +21,7 @@ typedef BrnMultiSelectListPickerItemClick = void Function(
 
 /// 多选列表 Picker
 
-class BrnMultiSelectListPicker<T extends BrnMultiSelectBottomPickerItem>
+class MultiSelectListPicker<T extends MultiSelectBottomPickerItem>
     extends StatefulWidget {
   final String? title;
   final List<T> items;
@@ -30,7 +30,7 @@ class BrnMultiSelectListPicker<T extends BrnMultiSelectBottomPickerItem>
   final BrnMultiSelectListPickerItemClick? onItemClick;
   final PickerTitleConfig pickerTitleConfig;
 
-  static void show<T extends BrnMultiSelectBottomPickerItem>(
+  static void show<T extends MultiSelectBottomPickerItem>(
     BuildContext context, {
     required List<T> items,
     BrnMultiSelectListPickerSubmit<T>? onSubmit,
@@ -44,7 +44,7 @@ class BrnMultiSelectListPicker<T extends BrnMultiSelectBottomPickerItem>
       isDismissible: isDismissible,
       backgroundColor: Colors.transparent,
       builder: (BuildContext dialogContext) {
-        return BrnMultiSelectListPicker<T>(
+        return MultiSelectListPicker<T>(
           items: items,
           onSubmit: onSubmit,
           onCancel: onCancel,
@@ -55,7 +55,7 @@ class BrnMultiSelectListPicker<T extends BrnMultiSelectBottomPickerItem>
     );
   }
 
-  BrnMultiSelectListPicker({
+  MultiSelectListPicker({
     Key? key,
     this.title,
     required this.items,
@@ -71,8 +71,8 @@ class BrnMultiSelectListPicker<T extends BrnMultiSelectBottomPickerItem>
   }
 }
 
-class MultiSelectDialogWidgetState<T extends BrnMultiSelectBottomPickerItem>
-    extends State<BrnMultiSelectListPicker<T>> {
+class MultiSelectDialogWidgetState<T extends MultiSelectBottomPickerItem>
+    extends State<MultiSelectListPicker<T>> {
   @override
   Widget build(BuildContext context) {
     return PickerClipRRect(
@@ -167,9 +167,11 @@ class MultiSelectDialogWidgetState<T extends BrnMultiSelectBottomPickerItem>
                       height: 50,
                       child: widget.items[index].isChecked
                           ? PhoenixTools.getAssetImageWithBandColor(
-                              PickerAssets.iconMultiSelected)
+                              PickerAssets.iconMultiSelected,
+                              package: 'phoenix_picker')
                           : PhoenixTools.getAssetImage(
-                              PickerAssets.iconUnSelect)),
+                              PickerAssets.iconUnSelect,
+                              package: 'phoenix_picker')),
                 ],
               ),
             ),

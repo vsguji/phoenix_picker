@@ -262,7 +262,8 @@ class _SelectTagsWithInputPickerWidgetState
               },
               child: Padding(
                 padding: const EdgeInsets.all(4),
-                child: PhoenixTools.getAssetImage(PickerAssets.iconPickerClose),
+                child: PhoenixTools.getAssetImage(PickerAssets.iconPickerClose,
+                    package: 'phoenix_picker'),
               ))
         ],
       ),

@@ -13,7 +13,7 @@ enum PickerWindowType {
   range, //值范围类型,使用 Tag + Range 的 Item 展示
 }
 
-class BrnPickerEntity {
+class PickerEntity {
   String? uniqueId; //唯一的id
   String?
       type; //类型 目前支持的类型有不限（unlimit）、单选（radio）、复选（checkbox）, 最终被解析成 PickerFilterType 类型
@@ -21,15 +21,15 @@ class BrnPickerEntity {
   String? value; //回传给服务器
   String name; //显示的文案
   String? defaultValue;
-  List<BrnPickerEntity> children; //下级筛选项
+  List<PickerEntity> children; //下级筛选项
   Map? extMap; //扩展字段，目前只有min和max
 
   bool isSelected; //是否选中
   int maxSelectedCount;
-  BrnPickerEntity? parent; //上级筛选项
+  PickerEntity? parent; //上级筛选项
   PickerFilterType? filterType; //筛选类型
 
-  BrnPickerEntity(
+  PickerEntity(
       {this.uniqueId,
       this.key,
       this.value,
@@ -43,9 +43,9 @@ class BrnPickerEntity {
     filterType = parserFilterTypeWithType(type);
   }
 
-  static BrnPickerEntity fromMap(Map<String, dynamic>? map) {
-    if (map == null) return BrnPickerEntity();
-    BrnPickerEntity entity = BrnPickerEntity();
+  static PickerEntity fromMap(Map<String, dynamic>? map) {
+    if (map == null) return PickerEntity();
+    PickerEntity entity = PickerEntity();
     entity.uniqueId = map['id'] ?? "";
     entity.name = map['name'] ?? "";
     entity.key = map['key'] ?? "";
@@ -63,8 +63,8 @@ class BrnPickerEntity {
     }
     entity.extMap = map['ext'] ?? {};
 //    entity.children = map['children'] ?? [];
-    entity.children = []..addAll((map['children'] as List? ?? [])
-        .map((o) => BrnPickerEntity.fromMap(o)));
+    entity.children = []..addAll(
+        (map['children'] as List? ?? []).map((o) => PickerEntity.fromMap(o)));
     return entity;
   }
 
@@ -75,7 +75,7 @@ class BrnPickerEntity {
 
   void configDefaultValue() {
     if (children.isNotEmpty) {
-      for (BrnPickerEntity entity in children) {
+      for (PickerEntity entity in children) {
         if (!PhoenixTools.isEmpty(defaultValue)) {
           List<String> values = defaultValue!.split(',');
           entity.isSelected = values.contains(entity.value);
@@ -89,7 +89,7 @@ class BrnPickerEntity {
 
   void configRelationship() {
     if (children.isNotEmpty) {
-      for (BrnPickerEntity entity in children) {
+      for (PickerEntity entity in children) {
         entity.parent = this;
         entity.configRelationship();
       }
@@ -118,23 +118,23 @@ class BrnPickerEntity {
 
   void clearChildSelection() {
     if (children.isNotEmpty) {
-      for (BrnPickerEntity entity in children) {
+      for (PickerEntity entity in children) {
         entity.isSelected = false;
         entity.clearChildSelection();
       }
     }
   }
 
-  List<BrnPickerEntity> selectedLastColumnList() {
-    List<BrnPickerEntity> list = [];
+  List<PickerEntity> selectedLastColumnList() {
+    List<PickerEntity> list = [];
     if (children.isNotEmpty) {
-      List<BrnPickerEntity> firstList = [];
-      for (BrnPickerEntity firstEntity in children) {
+      List<PickerEntity> firstList = [];
+      for (PickerEntity firstEntity in children) {
         if (firstEntity.children.isNotEmpty) {
-          List<BrnPickerEntity> secondList = [];
-          for (BrnPickerEntity secondEntity in firstEntity.children) {
+          List<PickerEntity> secondList = [];
+          for (PickerEntity secondEntity in firstEntity.children) {
             if (secondEntity.children.isNotEmpty) {
-              List<BrnPickerEntity> thirds =
+              List<PickerEntity> thirds =
                   currentSelectListForEntity(secondEntity);
               if (thirds.isNotEmpty) {
                 list.addAll(thirds);
@@ -155,23 +155,23 @@ class BrnPickerEntity {
     return list;
   }
 
-  List<BrnPickerEntity> selectedListWithoutUnlimit() {
-    List<BrnPickerEntity> selected = selectedList();
+  List<PickerEntity> selectedListWithoutUnlimit() {
+    List<PickerEntity> selected = selectedList();
     return selected.where((_) => !_.isUnLimit()).toList();
   }
 
-  List<BrnPickerEntity> selectedList() {
-    List<BrnPickerEntity> results = [];
-    List<BrnPickerEntity> firstColumn = currentSelectListForEntity(this);
+  List<PickerEntity> selectedList() {
+    List<PickerEntity> results = [];
+    List<PickerEntity> firstColumn = currentSelectListForEntity(this);
     results.addAll(firstColumn);
     if (firstColumn.isNotEmpty) {
-      for (BrnPickerEntity firstEntity in firstColumn) {
-        List<BrnPickerEntity> secondColumn =
+      for (PickerEntity firstEntity in firstColumn) {
+        List<PickerEntity> secondColumn =
             currentSelectListForEntity(firstEntity);
         results.addAll(secondColumn);
         if (secondColumn.isNotEmpty) {
-          for (BrnPickerEntity secondEntity in secondColumn) {
-            List<BrnPickerEntity> thirdColumn =
+          for (PickerEntity secondEntity in secondColumn) {
+            List<PickerEntity> thirdColumn =
                 currentSelectListForEntity(secondEntity);
             results.addAll(thirdColumn);
           }
@@ -182,10 +182,10 @@ class BrnPickerEntity {
   }
 
   /// 返回状态为选中的子节点
-  List<BrnPickerEntity> currentSelectListForEntity(BrnPickerEntity entity) {
-    List<BrnPickerEntity> list = [];
+  List<PickerEntity> currentSelectListForEntity(PickerEntity entity) {
+    List<PickerEntity> list = [];
     if (entity.children.isNotEmpty) {
-      for (BrnPickerEntity entity in entity.children) {
+      for (PickerEntity entity in entity.children) {
         if (entity.isSelected) {
           list.add(entity);
         }
@@ -199,7 +199,7 @@ class BrnPickerEntity {
     if (PhoenixTools.isEmpty(children)) return isSelected ? 1 : 0;
 
     int count = 0;
-    for (BrnPickerEntity entity in children) {
+    for (PickerEntity entity in children) {
       if (!entity.isUnLimit()) {
         count += entity.getSelectedChildCount();
       }
@@ -212,7 +212,7 @@ class BrnPickerEntity {
   int getIndexInCurrentLevel() {
     if (parent == null || parent!.children.isEmpty) return -1;
 
-    for (BrnPickerEntity entity in parent!.children) {
+    for (PickerEntity entity in parent!.children) {
       if (entity == this) {
         return parent!.children.indexOf(entity);
       }
@@ -223,7 +223,7 @@ class BrnPickerEntity {
   bool isInLastLevel() {
     if (parent == null || parent!.children.isEmpty) return true;
 
-    for (BrnPickerEntity entity in parent!.children) {
+    for (PickerEntity entity in parent!.children) {
       if (entity.children.isNotEmpty) {
         return false;
       }
@@ -238,8 +238,8 @@ class BrnPickerEntity {
   }
 
   void clearSelectedEntity() {
-    List<BrnPickerEntity> tmp = [];
-    BrnPickerEntity node = this;
+    List<PickerEntity> tmp = [];
+    PickerEntity node = this;
     tmp.add(node);
     while (tmp.isNotEmpty) {
       node = tmp.removeLast();
@@ -253,7 +253,7 @@ class BrnPickerEntity {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is BrnPickerEntity &&
+      other is PickerEntity &&
           runtimeType == other.runtimeType &&
           uniqueId == other.uniqueId &&
           key == other.key &&
