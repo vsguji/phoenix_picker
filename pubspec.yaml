@@ -1,6 +1,6 @@
 name: phoenix_picker
 description: phoenix 将做为企业级基础组件:Picker,提供项目支持。
-version: 1.0.2
+version: 1.0.3
 homepage: 'https://github.com/vsguji/phoenix_picker.git'
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.18.1
-  phoenix_base: ^1.0.4
+  phoenix_base: ^1.1.9
   phoenix_line: ^1.0.0
   phoenix_toast: ^1.0.0
 dev_dependencies:

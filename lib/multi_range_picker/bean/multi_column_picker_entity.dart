@@ -39,7 +39,7 @@ class PickerEntity {
       this.isSelected = false,
       this.extMap,
       this.type,
-      this.maxSelectedCount = BrnSelectionConstant.maxSelectCount}) {
+      this.maxSelectedCount = SelectionConstant.maxSelectCount}) {
     filterType = parserFilterTypeWithType(type);
   }
 
@@ -57,9 +57,9 @@ class PickerEntity {
     if (map['maxSelectedCount'] != null &&
         int.tryParse(map['maxSelectedCount']) != null) {
       entity.maxSelectedCount = int.tryParse(map['maxSelectedCount']) ??
-          BrnSelectionConstant.maxSelectCount;
+          SelectionConstant.maxSelectCount;
     } else {
-      entity.maxSelectedCount = BrnSelectionConstant.maxSelectCount;
+      entity.maxSelectedCount = SelectionConstant.maxSelectCount;
     }
     entity.extMap = map['ext'] ?? {};
 //    entity.children = map['children'] ?? [];
